@@ -1,7 +1,6 @@
 package edu.hsutx;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CSpaceGraph extends WeightedDirectedGraph {
 
@@ -19,8 +18,51 @@ public class CSpaceGraph extends WeightedDirectedGraph {
     public CSpaceGraph(int[][] cspace) {
         // TODO - Implement
         super(0, new ArrayList<Edge>());
+        boolean above;
+        boolean left;
+        boolean right;
+        boolean below;
+        double sqrt2 = Math.sqrt(2);
+        for (int i = 0; i <cspace.length; i++) {
+            for (int j = 0; j <cspace[0].length; j++) {
+                above = i>0;
+                below = i<cspace.length-1;
+                left = j>0;
+                right = j<cspace[i].length-1;
+
+                if (cspace[i][j]==0) {
+                    if (above) {
+                        if (cspace[i-1][j]==0) {
+                            Edge e = new Edge((i * 1000) + j, ((i - 1) * 1000) + j, 1);
+                        }
+                        if (left && cspace[i-1][j-1]==0) {
+                            Edge e = new Edge((i * 1000) + j, ((i-1) * 1000) + (j-1), sqrt2);
+                        }
+                        if (right && cspace[i-1][j+1]==0) {
+                            Edge e = new Edge((i * 1000) + j, ((i - 1) * 1000) + (j+1), sqrt2);
+                        }
+                    }
+                    if (left && cspace[i][j-1]==0) {
+                        Edge e = new Edge((i * 1000) + j, (i * 1000) + j - 1, 1);
+                    }
+                    if
+                    if (below) {
+                        if (cspace[i+1][j]==0) {
+                            Edge e = new Edge((i * 1000) + j, ((i + 1) * 1000) + j, 1);
+                        }
+                        if (left && cspace[i+1][j-1]==0) {
+                            Edge e = new Edge((i * 1000) + j, ((i+1) * 1000) + (j-1), sqrt2);
+                        }
+                        if (right && cspace[i+1][j+1]==0) {
+                            Edge e = new Edge((i * 1000) + j, ((i + 1) * 1000) + (j-1), sqrt2);
+                        }
+                    }
+                }
 
 
+                }
+            }
+        }
     }
 
     /***
