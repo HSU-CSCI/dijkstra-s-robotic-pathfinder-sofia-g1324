@@ -3,7 +3,6 @@ package edu.hsutx;
 import java.util.ArrayList;
 
 public class CSpaceGraph extends WeightedDirectedGraph {
-
     /***
      * Convert a cspace to weighted, directed graph
      * a cspace is a 2d matrix representing a robot's ability to navigate through a location in physical space.
@@ -13,11 +12,11 @@ public class CSpaceGraph extends WeightedDirectedGraph {
      * For edges moving straight left, right, up, down, the weight of the edge should be set to 1.
      * For diagonal edges, the weight of the edge should be set to the square root of 2
      * You will want to add the x,y coordinates to your vertex data
-     * @param cspace
+     * @param cspace a double array of ints, 0 for open space, 1 otherwise
      */
     public CSpaceGraph(int[][] cspace) {
         // TODO - Implement
-        super(0, new ArrayList<Edge>());
+        super(0, new ArrayList<>());
         boolean above;
         boolean left;
         boolean right;
@@ -33,50 +32,55 @@ public class CSpaceGraph extends WeightedDirectedGraph {
                 if (cspace[i][j]==0) {
                     if (above) {
                         if (cspace[i-1][j]==0) {
-                            Edge e = new Edge((i * 1000) + j, ((i - 1) * 1000) + j, 1);
+                            addEdge((i * 1000) + j, ((i - 1) * 1000) + j, 1);
                         }
                         if (left && cspace[i-1][j-1]==0) {
-                            Edge e = new Edge((i * 1000) + j, ((i-1) * 1000) + (j-1), sqrt2);
+                            addEdge((i * 1000) + j, ((i-1) * 1000) + (j-1), sqrt2);
                         }
                         if (right && cspace[i-1][j+1]==0) {
-                            Edge e = new Edge((i * 1000) + j, ((i - 1) * 1000) + (j+1), sqrt2);
+                            addEdge((i * 1000) + j, ((i - 1) * 1000) + (j+1), sqrt2);
                         }
                     }
                     if (left && cspace[i][j-1]==0) {
-                        Edge e = new Edge((i * 1000) + j, (i * 1000) + j - 1, 1);
+                        this.addEdge((i * 1000) + j, (i * 1000) + j - 1, 1);
                     }
-                    if
+                    if (right && cspace[i][j+1]==0) {
+                        addEdge((i * 1000) + j, (i * 1000) + j + 1, 1);
+                    }
                     if (below) {
                         if (cspace[i+1][j]==0) {
-                            Edge e = new Edge((i * 1000) + j, ((i + 1) * 1000) + j, 1);
+                            addEdge((i * 1000) + j, ((i + 1) * 1000) + j, 1);
                         }
                         if (left && cspace[i+1][j-1]==0) {
-                            Edge e = new Edge((i * 1000) + j, ((i+1) * 1000) + (j-1), sqrt2);
+                            addEdge((i * 1000) + j, ((i+1) * 1000) + (j-1), sqrt2);
                         }
                         if (right && cspace[i+1][j+1]==0) {
-                            Edge e = new Edge((i * 1000) + j, ((i + 1) * 1000) + (j-1), sqrt2);
+                            addEdge((i * 1000) + j, ((i + 1) * 1000) + (j-1), sqrt2);
                         }
                     }
                 }
 
 
-                }
             }
         }
     }
 
     /***
-     * Wrapper Class for getDykstraPath using points for cspaces
-     * @param start
-     * @param end
-     * @return
+     * Wrapper Class for getDijkstraPath using points for cspaces
+     * @param start starting point
+     * @param end ending point
+     * @return the path, in point form
      */
     public Point[] getDijkstrasPath(Point start, Point end) {
-        // TODO - convert start and end to int vertexes and call the base getDijkstrasPath method
         // convert the int[] result back to Points, and return the result
         // The starter code returns a list of points in a straight line from 0,0 to 299,299
-        Point[] pointList = new Point[300];
-        for (int i=0; i<300; i++) pointList[i]=new Point(i,i);
+        int startVertex = (start.getX()*1000) + start.getY();
+        int endVertex = (end.getX()*1000) + end.getY();
+        int [] path = super.getDijkstrasPath(startVertex, endVertex);
+        Point [] pointList = new Point [path.length];
+        for (int i=0; i<path.length; i++) {
+            pointList[i]= new Point(path[i]/1000,path[i]%1000);
+        }
         return pointList;
     }
 }
