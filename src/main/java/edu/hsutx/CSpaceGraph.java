@@ -32,30 +32,30 @@ public class CSpaceGraph extends WeightedDirectedGraph {
                 if (cspace[i][j]==0) {
                     if (above) {
                         if (cspace[i-1][j]==0) {
-                            addEdge((i * 1000) + j, ((i - 1) * 1000) + j, 1);
+                            addEdge((i * 300) + j, ((i - 1) * 300) + j, 1);
                         }
                         if (left && cspace[i-1][j-1]==0) {
-                            addEdge((i * 1000) + j, ((i-1) * 1000) + (j-1), sqrt2);
+                            addEdge((i * 300) + j, ((i-1) * 300) + j-1, sqrt2);
                         }
                         if (right && cspace[i-1][j+1]==0) {
-                            addEdge((i * 1000) + j, ((i - 1) * 1000) + (j+1), sqrt2);
+                            addEdge((i * 300) + j, ((i - 1) * 300) + (j+1), sqrt2);
                         }
                     }
                     if (left && cspace[i][j-1]==0) {
-                        this.addEdge((i * 1000) + j, (i * 1000) + j - 1, 1);
+                        this.addEdge((i * 300) + j, (i * 300) + j-1, 1);
                     }
                     if (right && cspace[i][j+1]==0) {
-                        addEdge((i * 1000) + j, (i * 1000) + j + 1, 1);
+                        addEdge((i * 300) + j, (i * 300) + j + 1, 1);
                     }
                     if (below) {
                         if (cspace[i+1][j]==0) {
-                            addEdge((i * 1000) + j, ((i + 1) * 1000) + j, 1);
+                            addEdge((i * 300) + j, ((i + 1) * 300) + j, 1);
                         }
                         if (left && cspace[i+1][j-1]==0) {
-                            addEdge((i * 1000) + j, ((i+1) * 1000) + (j-1), sqrt2);
+                            addEdge((i * 300) + j, ((i+1) * 300) + j-1, sqrt2);
                         }
                         if (right && cspace[i+1][j+1]==0) {
-                            addEdge((i * 1000) + j, ((i + 1) * 1000) + (j-1), sqrt2);
+                            addEdge((i * 300) + j, ((i + 1) * 300) + j+1, sqrt2);
                         }
                     }
                 }
@@ -74,12 +74,12 @@ public class CSpaceGraph extends WeightedDirectedGraph {
     public Point[] getDijkstrasPath(Point start, Point end) {
         // convert the int[] result back to Points, and return the result
         // The starter code returns a list of points in a straight line from 0,0 to 299,299
-        int startVertex = (start.getX()*1000) + start.getY();
-        int endVertex = (end.getX()*1000) + end.getY();
+        int startVertex = ((start.getX())*300) + start.getY();
+        int endVertex = ((end.getX())*300) + end.getY();
         int [] path = super.getDijkstrasPath(startVertex, endVertex);
         Point [] pointList = new Point [path.length];
         for (int i=0; i<path.length; i++) {
-            pointList[i]= new Point(path[i]/1000,path[i]%1000);
+            pointList[i]= new Point(path[i]/300,path[i]%300);
         }
         return pointList;
     }

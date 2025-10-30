@@ -153,14 +153,13 @@ public class WeightedDirectedGraph {
         boolean [] visited = new boolean [vertices.size()+1];
         int [] parent = new int [vertices.size()+1];
         Arrays.fill(d,Integer.MAX_VALUE);
-        visited[start] = true;
         parent[start] = -1;
         d[start] = 0;
         for (int i=0; i<vertices.size(); i++) {
             int v = -1;
             //find lowest d value
             for (int j=1; j<=vertices.size();j++) {
-                if (!visited[j] && (v == -1 || d[j]<d[v])) {
+                if (!visited[j] && (v==-1 || (d[j]<d[v]))) {
                     v = j;
                 }
             }
